@@ -13,18 +13,17 @@ spring:
     oauth2:
       client:
         registration:
-          blog-client:
-            client-id: blog-client
+          blog-client:  # Tên đăng ký, có thể đặt tùy ý
+            client-id: blog-client  # Phải khớp với client đã đăng ký trong Auth Service
             client-secret: blog-secret
             authorization-grant-type: authorization_code
-            redirect-uri: "{baseUrl}/login/oauth2/code/blog-client"
-            scope: blog.read
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope: openid,profile
         provider:
-          blog-client:
+          blog-client:  # Phải khớp với tên đăng ký ở trên
             authorization-uri: http://localhost:8096/oauth2/authorize
             token-uri: http://localhost:8096/oauth2/token
-            user-info-uri: http://localhost:8096/userinfo
-            user-name-attribute: sub
+            jwk-set-uri: http://localhost:8096/.well-known/jwks.json
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:8096/oauth2/jwks
+          jwk-set-uri: http://localhost:8096/.well-known/jwks.json
